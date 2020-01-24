@@ -1,6 +1,3 @@
-{-# LANGUAGE DeriveFoldable #-}
-{-# LANGUAGE DeriveFunctor #-}
-{-# LANGUAGE DeriveTraversable #-}
 {-# LANGUAGE TypeOperators #-}
 
 module Expression
@@ -28,6 +25,8 @@ data Expression
     , Eq)
     --Functor,Foldable,Traversable)
 
+infixr `Imp`
+
 data Inference = Inference {
   delta :: [Expression],
   omega :: [Expression],
@@ -46,9 +45,9 @@ prettyExpr :: Expression -> String
 prettyExpr (Atom s) = s
 prettyExpr TRUE = "T"
 prettyExpr FALSE = "F"
-prettyExpr (And left right) = "(" ++ prettyExpr(left) ++ " & " ++ prettyExpr(right) ++ ")"
-prettyExpr (Or  left right) = "(" ++ prettyExpr(left) ++ " v " ++ prettyExpr(right) ++ ")"
-prettyExpr (Imp left right) = "(" ++ prettyExpr(left) ++ " -> " ++ prettyExpr(right) ++ ")"
+prettyExpr (And left right) = "(" ++ prettyExpr left ++ " & " ++ prettyExpr right ++ ")"
+prettyExpr (Or  left right) = "(" ++ prettyExpr left ++ " v " ++ prettyExpr right ++ ")"
+prettyExpr (Imp left right) = "(" ++ prettyExpr left ++ " -> " ++ prettyExpr right ++ ")"
 
 prettyPrint :: Inference -> String 
 prettyPrint Inference {delta = delt, omega = omeg, pole = lrc, express = expr} = 
@@ -56,5 +55,5 @@ prettyPrint Inference {delta = delt, omega = omeg, pole = lrc, express = expr} =
   ++ "," 
   ++ show (fmap prettyExpr omeg)
   ++ " ===>>" 
-  ++ prettyPole(lrc) 
+  ++ prettyPole lrc
   ++ show(prettyExpr expr)

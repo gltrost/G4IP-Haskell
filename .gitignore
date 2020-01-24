@@ -21,3 +21,9 @@ cabal.project.local
 cabal.project.local~
 .HTF/
 .ghc.environment.*
+*.yaml
+*.lock
+*.md
+.DS_Store
+Setup.hs
+LICENSE

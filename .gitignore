@@ -23,7 +23,7 @@ cabal.project.local~
 .ghc.environment.*
 *.yaml
 *.lock
-*.md
+ChangeLog.md
 .DS_Store
 Setup.hs
 LICENSE

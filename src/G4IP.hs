@@ -2,6 +2,14 @@ module G4IP where
 
 import Expression
 import Debug.Trace
+import Text.ParserCombinators.Parsec
+import Control.Applicative
+import Control.Monad
+
+
+inputParser :: String -> Expression 
+inputParser str = 
+  read str :: Expression
 
 
 helpInit :: [Expression] -> Expression -> Bool
@@ -19,7 +27,6 @@ pimplHelp delt1 delt2 =
       else let (x,y,z) = pimplHelp delts delt2 in (x,y, topL `Imp` topR : z)
     (j : delts) ->
       let (x,y,z) = pimplHelp delts delt2 in (x,y,j : z)
-
 
 minOf :: [Bool] -> Bool
 minOf boolList =

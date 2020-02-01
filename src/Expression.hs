@@ -3,14 +3,22 @@
 module Expression
   ( POLE (..),
     Expression (..),
-    Inference (..),
-    prettyExpr,
-    prettyPrint) where
+    (&),
+    (\/),
+    (-->),
+    (<->),
+    neg,
+    Inference (..)) where
 
 data POLE = LEFT | RIGHT | NEITHER  
   deriving
-    ( Show
-    , Eq)
+    (Eq)
+
+instance Show POLE where
+  show LEFT = "L "
+  show RIGHT = "R "
+  show NEITHER = " "  
+
 
 data Expression
   = Atom String 
@@ -21,11 +29,38 @@ data Expression
   | Imp Expression Expression
   deriving
     ( Read
-    , Show
     , Eq)
     --Functor,Foldable,Traversable)
 
-infixr `Imp`
+infixr 3 &
+infixr 2 \/
+infixr 1 -->
+infixr 0 <->
+
+(&) :: Expression -> Expression -> Expression
+(&) = And
+
+(\/) :: Expression -> Expression -> Expression
+(\/) = Or
+
+(-->) :: Expression -> Expression -> Expression
+(-->) = Imp
+
+(<->) :: Expression -> Expression -> Expression
+a <-> b = And (Imp a b) (Imp b a)
+
+neg :: Expression -> Expression
+neg a = a --> FALSE
+
+instance Show Expression where
+  show (Atom s) = s
+  show TRUE = "T"
+  show FALSE = "F"
+  show (And left right) = "(" ++ show left ++ " & " ++ show right ++ ")"
+  show (Or  left right) = "(" ++ show left ++ " v " ++ show right ++ ")"
+  show (Imp left right) = "(" ++ show left ++ " --> " ++ show right ++ ")"
+
+
 
 data Inference = Inference {
   delta :: [Expression],
@@ -33,27 +68,20 @@ data Inference = Inference {
   pole :: POLE, 
   express :: Expression
 } deriving
-    (Show
-    , Eq)
+    (Eq)
 
-prettyPole :: POLE -> String 
-prettyPole LEFT = "L "
-prettyPole RIGHT = "R "
-prettyPole NEITHER = " "  
+eShow :: Expression -> String
+eShow val = show val
 
-prettyExpr :: Expression -> String
-prettyExpr (Atom s) = s
-prettyExpr TRUE = "T"
-prettyExpr FALSE = "F"
-prettyExpr (And left right) = "(" ++ prettyExpr left ++ " & " ++ prettyExpr right ++ ")"
-prettyExpr (Or  left right) = "(" ++ prettyExpr left ++ " v " ++ prettyExpr right ++ ")"
-prettyExpr (Imp left right) = "(" ++ prettyExpr left ++ " -> " ++ prettyExpr right ++ ")"
+pShow :: POLE -> String
+pShow val = show val 
 
-prettyPrint :: Inference -> String 
-prettyPrint Inference {delta = delt, omega = omeg, pole = lrc, express = expr} = 
-  show (fmap prettyExpr delt) 
-  ++ "," 
-  ++ show (fmap prettyExpr omeg)
-  ++ " ===>>" 
-  ++ prettyPole lrc
-  ++ show(prettyExpr expr)
+instance Show Inference where
+  show Inference {delta = delt, omega = omeg, pole = lrc, express = expr} = 
+    show (fmap eShow delt) 
+    ++ "," 
+    ++ show  (fmap eShow  omeg)
+    ++ " |- " 
+    ++ pShow  lrc
+    ++ show (eShow  expr)
+

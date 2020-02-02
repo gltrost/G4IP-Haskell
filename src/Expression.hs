@@ -60,8 +60,6 @@ instance Show Expression where
   show (Or  left right) = "(" ++ show left ++ " v " ++ show right ++ ")"
   show (Imp left right) = "(" ++ show left ++ " --> " ++ show right ++ ")"
 
-
-
 data Inference = Inference {
   delta :: [Expression],
   omega :: [Expression],
@@ -83,5 +81,6 @@ instance Show Inference where
     ++ show  (fmap eShow  omeg)
     ++ " |- " 
     ++ pShow  lrc
-    ++ show (eShow  expr)
+    ++ show (eShow expr)
+
 

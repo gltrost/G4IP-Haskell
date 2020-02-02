@@ -36,6 +36,7 @@ library
       src
   build-depends:
       base >=4.7 && <5
+    , parsec
   default-language: Haskell2010
 
 executable G4IP-Haskell-exe
@@ -48,6 +49,7 @@ executable G4IP-Haskell-exe
   build-depends:
       G4IP-Haskell
     , base >=4.7 && <5
+    , parsec    
   default-language: Haskell2010
 
 test-suite G4IP-Haskell-test

@@ -16,21 +16,21 @@ This project is an implementation Roy Dyckhoff’s contraction-free sequent calc
 
 The syntax of the logic is:
 * Booleans: `TRUE`/`FALSE`
-* Proposition: `Atom "[some string"`
+* Proposition: `Atom "[some string]"`
 * Implication: `-->` 
 * Conjunction: `&`
 * Disjunction: `\/`
 * Negation: `neg`
 * Bi-implication: `<->`
 
-An example proposition would be `((Atom "a" -> TRUE) & (Atom "b" \/ FALSE))`. 
+An example proposition would be `((Atom "a" --> TRUE) & (Atom "b" \/ FALSE))`. 
 
 ### Running G4IP
 
 While in `G4IP-Haskell/src`, run `ghci G4IP.hs`, then type `g4ip [your-proposition]`.
 For example: 
 
-``` g4ip ((Atom "p" --> Atom "q") --> (Atom "q" --> Atom "r") --> (Atom "p" --> Atom "r")) ```
+``` g4ip ((Atom "p" --> Atom "q") & (Atom "q" --> Atom "r") --> (Atom "p" --> Atom "r")) ```
 will evaluate to `True`. 
 
 ### Testing 

@@ -36,3 +36,7 @@ will evaluate to `True`.
 ### Testing 
 
 Tests can be added in `test/Spec.hs`. This project was built with stack, so to run tests, simply type `stack test` at the root directory. 
+
+### Next Steps
+
+The next step is to build a visual interface for g4ip that will allow the user to see the proof completely written out if a proof exists. 
